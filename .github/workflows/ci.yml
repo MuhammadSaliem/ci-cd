@@ -13,48 +13,61 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      # Checkout the repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK
+      # Set up Java
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin'  # Specify distribution
+          distribution: 'temurin'
 
-      - name: Build with Maven
-        run: mvn clean install
+      # Cache Maven dependencies to speed up the build
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
 
-      - name: Run Tests
-        run: mvn test
+      # Build the project and run tests
+      - name: Build and test with Maven
+        run: mvn clean verify
 
-      - name: Generate JaCoCo Report
+      # Generate JaCoCo coverage report
+      - name: Generate JaCoCo report
         run: mvn jacoco:report
 
-      - name: Check Coverage
-        run: mvn jacoco:check
-
+      # Upload JaCoCo report as an artifact
       - name: Upload JaCoCo Report
         uses: actions/upload-artifact@v3
         with:
           name: jacoco-report
-          path: target/site/jacoco/
+          path: target/site/jacoco
 
-      - name: Generate Coverage Summary
+      # Extract coverage summary from JaCoCo report
+      - name: Extract Coverage
+        id: coverage
         run: |
-          COVERAGE=$(grep -o '[0-9]*\.[0-9]*%' target/site/jacoco/jacoco-resources/report.xml | head -1)
-          echo "Code Coverage: $COVERAGE"
-          echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
+          COVERAGE=$(grep -oP '(?<=<counter type="INSTRUCTION" missed=")[0-9]*' target/site/jacoco/jacoco.xml)
+          TOTAL=$(grep -oP '(?<=<counter type="INSTRUCTION" covered=")[0-9]*' target/site/jacoco/jacoco.xml)
+          COVERAGE_PERCENTAGE=$(echo "scale=2; 100*$TOTAL/($COVERAGE+$TOTAL)" | bc)
+          echo "Coverage is $COVERAGE_PERCENTAGE%"
+          echo "COVERAGE=$COVERAGE_PERCENTAGE" >> $GITHUB_ENV
 
+      # Post a comment on the pull request with the coverage details
       - name: Comment on Pull Request
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v5
         with:
           script: |
             const coverage = process.env.COVERAGE;
-            const comment = `## Code Coverage Report\n\nCode Coverage: ${coverage}`;
-            const { data: { id } } = await github.issues.createComment({
-              ...context.repo,
+            const comment = `## JaCoCo Coverage Report\n\nCode Coverage: ${coverage}%`;
+            github.issues.createComment({
               issue_number: context.issue.number,
-              body: comment,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
             });
