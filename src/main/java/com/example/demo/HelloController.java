@@ -2,12 +2,16 @@ package com.example.demo;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HelloController {
+
+    @Autowired
+    private MathOperationsService mathOperationsService;
 
     @GetMapping("/hello")
     public String hello() {
@@ -16,13 +20,6 @@ public class HelloController {
 
     @GetMapping("/sum")
     public Integer sumList(@RequestBody List<Integer> numList) {
-        Integer sum = 0;
-
-        for(int i = 0; i < numList.size(); i++)
-        {
-            sum += numList.get(i);
-        }
-
-        return sum;
+        return mathOperationsService.sumList(numList);
     }
 }
