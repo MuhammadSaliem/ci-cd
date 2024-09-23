@@ -5,6 +5,8 @@ on:
     branches:
       - master
   pull_request:
+    branches:
+      - master
 
 jobs:
   build:
@@ -28,8 +30,30 @@ jobs:
       - name: Generate JaCoCo Report
         run: mvn jacoco:report
 
+      - name: Check Coverage
+        run: mvn jacoco:check
+
       - name: Upload JaCoCo Report
         uses: actions/upload-artifact@v3
         with:
           name: jacoco-report
           path: target/site/jacoco/
+
+      - name: Generate Coverage Summary
+        run: |
+          COVERAGE=$(grep -o '[0-9]*\.[0-9]*%' target/site/jacoco/jacoco-resources/report.xml | head -1)
+          echo "Code Coverage: $COVERAGE"
+          echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
+
+      - name: Comment on Pull Request
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const coverage = process.env.COVERAGE;
+            const comment = `## Code Coverage Report\n\nCode Coverage: ${coverage}`;
+            const { data: { id } } = await github.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: comment,
+            });
