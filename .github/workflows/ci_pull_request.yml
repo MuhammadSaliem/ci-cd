@@ -1,5 +1,4 @@
 name: CI for Pull Requests
-
 on:
   pull_request:
     branches:
@@ -41,8 +40,27 @@ jobs:
           # Get the coverage percentage
           coverage=$(grep -oP 'line rate</th>\s*<td>\K[0-9.]+(?=%)' target/site/jacoco/index.html)
           
+          # Check if coverage value is empty
+          if [[ -z "$coverage" ]]; then
+            echo "Coverage value not found!"
+            exit 1
+          fi
+          
+          # Debug: Print coverage value
+          echo "Coverage value: ${coverage}"
+
           # Post comment on PR
           echo "Posting coverage results to PR..."
-          curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+          response=$(curl -s -X POST -H "Authorization: token $GITHUB_TOKEN" \
           -d "{\"body\": \"### JaCoCo Coverage Report\\nCoverage: ${coverage}%\"}" \
-          "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${{ github.event.pull_request.number }}/comments"
+          "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${{ github.event.pull_request.number }}/comments")
+
+          echo "Response: $response"
+
+          # Check for errors in response
+          if echo "$response" | grep -q '"id":'; then
+            echo "Comment posted successfully."
+          else
+            echo "Failed to post comment."
+            exit 1
+          fi
