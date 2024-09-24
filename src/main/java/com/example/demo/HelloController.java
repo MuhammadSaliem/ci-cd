@@ -2,6 +2,7 @@ package com.example.demo;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HelloController {
+
+    @Autowired
+    private MathOperationsService mathOperationsService;
 
     @GetMapping("/hello")
     public String hello() {
@@ -24,5 +28,10 @@ public class HelloController {
         }
 
         return sum;
+    }
+
+    @PostMapping("/divide")
+    public Double divList(@RequestBody List<Integer> numList) {
+      return this.mathOperationsService.divideList(numList);
     }
 }
