@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -102,6 +103,73 @@ public class MathOperationsServiceTest {
         // Test multiplying all negative numbers
         Integer result = mathOperationsService.multipleList(Arrays.asList(-1, -2, -3));
         assertEquals(-6, result); // -1 * -2 * -3 = -6
+    }
+
+        @Test
+    public void testPlusPow2() {
+        // Test with a normal list of integers
+        List<Integer> numList = Arrays.asList(1, 2, 3);
+        assertEquals(12, mathOperationsService.plusPow2(numList));
+
+        // Test with an empty list
+        numList = Arrays.asList();
+        assertEquals(0, mathOperationsService.plusPow2(numList));
+
+        // Test with negative numbers
+        numList = Arrays.asList(-1, -2, -3);
+        assertEquals(-12, mathOperationsService.plusPow2(numList));
+
+        // Test with a mix of positive and negative numbers
+        numList = Arrays.asList(-1, 2, 3);
+        assertEquals(8, mathOperationsService.plusPow2(numList));
+    }
+
+    @Test
+    public void testSubtractList() {
+        // Test with a normal list of integers
+        List<Integer> numList = Arrays.asList(10, 2, 3);
+        assertEquals(5, mathOperationsService.subtractList(numList));
+
+        // Test with an empty list
+        numList = Arrays.asList();
+        assertEquals(0, mathOperationsService.subtractList(numList));
+
+        // Test with negative numbers
+        numList = Arrays.asList(-1, -2, -3);
+        assertEquals(4, mathOperationsService.subtractList(numList));
+
+        // Test with a single element
+        numList = Arrays.asList(5);
+        assertEquals(5, mathOperationsService.subtractList(numList));
+    }
+
+    @Test
+    public void testDivideList() {
+        // Test with a normal list of integers
+        List<Integer> numList = Arrays.asList(10, 2, 5);
+        assertEquals(1.0, mathOperationsService.divideList(numList));
+
+        // Test with an empty list
+        final List<Integer> emptyList = Arrays.asList();
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            mathOperationsService.divideList(emptyList);
+        });
+
+        // Test with one element
+        numList = Arrays.asList(10);
+        assertEquals(10.0, mathOperationsService.divideList(numList));
+
+        // Test with zero in the list - Uncomment this when the exception handling is added
+        /*
+        numList = Arrays.asList(10, 0);
+        assertThrows(IllegalArgumentException.class, () -> {
+            mathOperationsService.divideList(numList);
+        });
+        */
+
+        // Test with negative numbers
+        numList = Arrays.asList(-10, -2);
+        assertEquals(5.0, mathOperationsService.divideList(numList));
     }
 
 }

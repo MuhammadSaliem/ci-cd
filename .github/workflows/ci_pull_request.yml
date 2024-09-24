@@ -29,7 +29,7 @@ jobs:
       # - name: Run Tests
       #   run: mvn test
 
-      - name: Run Tests and Generate JaCoCo Report
+      - name: Run Testss and Generate JaCoCo Report
         run: mvn test jacoco:report
 
       - name: Upload JaCoCo Coverage Report
