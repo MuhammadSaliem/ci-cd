@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -60,6 +59,6 @@ public class MathOperationsServiceTest {
         List<Integer> numbers = Collections.singletonList(5);
         Integer expectedSum = 5;
         Integer actualSum = mathOperationsService.sumList(numbers);
-        assertNotEquals(expectedSum, actualSum, "The sum should be 5");
+        assertEquals(expectedSum, actualSum, "The sum should be 5");
     }
 }
