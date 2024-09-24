@@ -198,10 +198,9 @@ public class MathOperationsServiceTest {
     @Test
     public void testModulusList_WithZeroInList() {
         // Test with a list that includes zero
-        IllegalArgumentException thrown = 
-            assertThrows(IllegalArgumentException.class, () -> {
-                mathOperationsService.modulusList(Arrays.asList(10, 0)); // Should throw exception
-            });
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            mathOperationsService.modulusList(Arrays.asList(10, 0)); // Should throw exception
+        });
         assertEquals("Cannot perform modulus with zero.", thrown.getMessage());
     }
 
