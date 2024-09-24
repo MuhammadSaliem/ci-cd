@@ -16,4 +16,14 @@ public class MathOperationsService {
 
         return sum;
     }
+
+    public Integer mulitpleList(List<Integer> numList) {
+        Integer sum = 0; // To store the result
+
+        for (int i = 0; i < numList.size(); i++) {
+            sum *= numList.get(i);
+        }
+
+        return sum;
+    }
 }
