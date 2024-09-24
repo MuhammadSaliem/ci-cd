@@ -29,10 +29,7 @@
 	
 	<properties>
 		<java.version>17</java.version>
-
-		<sonar.coverage.jacoco.xmlReportPaths>
-  			../app-it/target/site/jacoco-aggregate/jacoco.xml
-  		</sonar.coverage.jacoco.xmlReportPaths>
+	  	<sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
 
@@ -70,7 +67,7 @@
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>3.9.1.2184</version> <!-- Check for the latest version -->
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
