@@ -10,10 +10,10 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin' # Use 'temurin' for OpenJDK
@@ -21,46 +21,11 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      - name: Run Tests
-        run: mvn test
+      - name: Run Tests and Generate JaCoCo Report
+        run: mvn test jacoco:report
 
-      - name: Run JaCoCo Code Coverage
-        run: mvn jacoco:report
-
-      - name: Upload JaCoCo Report
-        uses: actions/upload-artifact@v3
+      - name: Upload JaCoCo Coverage Report
+        uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
-          path: target/site/jacoco/
-
-      - name: Post Coverage Comment
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Get the coverage percentage
-          coverage=$(grep -oP 'line rate</th>\s*<td>\K[0-9.]+(?=%)' target/site/jacoco/index.html)
-          
-          # Check if coverage value is empty
-          if [[ -z "$coverage" ]]; then
-            echo "Coverage value not found!"
-            exit 1
-          fi
-          
-          # Debug: Print coverage value
-          echo "Coverage value: ${coverage}"
-
-          # Post comment on PR
-          echo "Posting coverage results to PR..."
-          response=$(curl -s -X POST -H "Authorization: token $GITHUB_TOKEN" \
-          -d "{\"body\": \"### JaCoCo Coverage Report\\nCoverage: ${coverage}%\"}" \
-          "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${{ github.event.pull_request.number }}/comments")
-
-          echo "Response: $response"
-
-          # Check for errors in response
-          if echo "$response" | grep -q '"id":'; then
-            echo "Comment posted successfully."
-          else
-            echo "Failed to post comment."
-            exit 1
-          fi
+          path: target/site/jacoco
