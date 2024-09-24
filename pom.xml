@@ -35,9 +35,13 @@
 
 		<sonar.java.libraries>${project.basedir}/target/classes</sonar.java.libraries>
 
+
 		<sonar.coverage.jacoco.xmlReportPaths>
-			../app-it/target/site/jacoco-aggregate/jacoco.xml
+			target/site/jacoco-aggregate/jacoco.xml
 		</sonar.coverage.jacoco.xmlReportPaths>
+		<!-- <sonar.coverage.jacoco.xmlReportPaths>
+			../app-it/target/site/jacoco-aggregate/jacoco.xml
+		</sonar.coverage.jacoco.xmlReportPaths> -->
 		</properties>
 
 
