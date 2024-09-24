@@ -24,10 +24,11 @@ jobs:
           distribution: 'temurin' # Use 'temurin' for OpenJDK
 
       - name: Build with Maven
-        run: mvn clean install -DskipTests -Pcoverage
+        run: mvn clean install -DskipTests
 
       # - name: Run Tests
       #   run: mvn test
+
 
       - name: Publish JaCoCo report to SonarCloud
         env:
