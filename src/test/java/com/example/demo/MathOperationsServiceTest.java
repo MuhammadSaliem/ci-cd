@@ -105,7 +105,7 @@ public class MathOperationsServiceTest {
         assertEquals(-6, result); // -1 * -2 * -3 = -6
     }
 
-        @Test
+    @Test
     public void testPlusPow2() {
         // Test with a normal list of integers
         List<Integer> numList = Arrays.asList(1, 2, 3);
@@ -159,17 +159,57 @@ public class MathOperationsServiceTest {
         numList = Arrays.asList(10);
         assertEquals(10.0, mathOperationsService.divideList(numList));
 
-        // Test with zero in the list - Uncomment this when the exception handling is added
+        // Test with zero in the list - Uncomment this when the exception handling is
+        // added
         /*
-        numList = Arrays.asList(10, 0);
-        assertThrows(IllegalArgumentException.class, () -> {
-            mathOperationsService.divideList(numList);
-        });
-        */
+         * numList = Arrays.asList(10, 0);
+         * assertThrows(IllegalArgumentException.class, () -> {
+         * mathOperationsService.divideList(numList);
+         * });
+         */
 
         // Test with negative numbers
         numList = Arrays.asList(-10, -2);
         assertEquals(5.0, mathOperationsService.divideList(numList));
+    }
+
+    @Test
+    public void testModulusList_WithValidInput() {
+        // Test with a normal list of integers
+        assertEquals(0, mathOperationsService.modulusList(Arrays.asList(10, 2, 3))); // 10 % 2 = 0
+        assertEquals(1, mathOperationsService.modulusList(Arrays.asList(10, 3, 2))); // 10 % 3 = 1
+        assertEquals(0, mathOperationsService.modulusList(Arrays.asList(10, 5, 5))); // 10 % 5 = 0
+        assertEquals(2, mathOperationsService.modulusList(Arrays.asList(17, 5, 3))); // 17 % 5 = 2
+    }
+
+    @Test
+    public void testModulusList_WithEmptyList() {
+        // Test with an empty list
+        assertEquals(0, mathOperationsService.modulusList(Arrays.asList())); // Should return 0
+    }
+
+    @Test
+    public void testModulusList_WithSingleElement() {
+        // Test with a single-element list
+        assertEquals(5, mathOperationsService.modulusList(Arrays.asList(5))); // Should return 5
+        assertEquals(10, mathOperationsService.modulusList(Arrays.asList(10))); // Should return 10
+    }
+
+    @Test
+    public void testModulusList_WithZeroInList() {
+        // Test with a list that includes zero
+        IllegalArgumentException thrown = 
+            assertThrows(IllegalArgumentException.class, () -> {
+                mathOperationsService.modulusList(Arrays.asList(10, 0)); // Should throw exception
+            });
+        assertEquals("Cannot perform modulus with zero.", thrown.getMessage());
+    }
+
+    @Test
+    public void testModulusList_WithNegativeNumbers() {
+        // Test with negative numbers
+        assertEquals(-1, mathOperationsService.modulusList(Arrays.asList(-10, 3))); // -10 % 3 = -1
+        assertEquals(0, mathOperationsService.modulusList(Arrays.asList(-10, -5))); // -10 % -5 = 0
     }
 
 }

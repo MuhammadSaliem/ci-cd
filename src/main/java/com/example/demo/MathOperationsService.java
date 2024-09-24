@@ -72,12 +72,15 @@ public class MathOperationsService {
     // Modulus of all elements in the list
     public Integer modulusList(List<Integer> numList) {
         if (numList.isEmpty()) {
-            return 0;
+            return 0; // Return 0 for an empty list
         }
 
         Integer result = numList.get(0); // Start with the first element
 
         for (int i = 1; i < numList.size(); i++) {
+            if (numList.get(i) == 0) {
+                throw new IllegalArgumentException("Cannot perform modulus with zero.");
+            }
             result %= numList.get(i);
         }
 
