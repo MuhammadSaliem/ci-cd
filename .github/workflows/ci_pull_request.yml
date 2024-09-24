@@ -29,11 +29,11 @@ jobs:
       # - name: Run Tests
       #   run: mvn test
 
-      # - name: Upload JaCoCo Coverage Report
-      #   uses: actions/upload-artifact@v4  
-      #   with:
-      #     name: jacoco-report
-      #     path: target/site/jacoco
+      - name: Upload JaCoCo Coverage Report
+        uses: actions/upload-artifact@v4  
+        with:
+          name: jacoco-report
+          path: target/site/jacoco
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v4
