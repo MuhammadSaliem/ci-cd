@@ -55,7 +55,7 @@ jobs:
       #   run: env | sort
           
       - name: SonarCloud Scan
-        uses: sonarsource/sonarqube-scan-action@v2.1.0
+        uses: sonarsource/sonarqube-scan-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
