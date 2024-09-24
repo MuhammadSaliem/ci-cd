@@ -31,7 +31,7 @@ public class MathOperationsService {
         Integer sum = 0; // To store the result
 
         for (int i = 0; i < numList.size(); i++) {
-            sum += numList.get(i) * 2; // this comment should cause issue in sonarcloud
+            sum += numList.get(i) * 2; //this comment should cause issue in sonarcloud
         }
 
         return sum;
