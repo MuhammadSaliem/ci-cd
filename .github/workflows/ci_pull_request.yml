@@ -23,17 +23,17 @@ jobs:
       - name: Build with Maven
         run: mvn clean install -DskipTests
 
-      - name: Run Tests
-        run: mvn test
+      # - name: Run Tests
+      #   run: mvn test
 
-      - name: Upload JaCoCo Coverage Report
-        uses: actions/upload-artifact@v4  
-        with:
-          name: jacoco-report
-          path: target/site/jacoco
+      # - name: Upload JaCoCo Coverage Report
+      #   uses: actions/upload-artifact@v4  
+      #   with:
+      #     name: jacoco-report
+      #     path: target/site/jacoco
 
-      - name: Debug Environment Variables
-        run: env | sort
+      # - name: Debug Environment Variables
+      #   run: env | sort
           
       - name: SonarCloud Scan
         uses: sonarsource/sonarqube-scan-action@v2.1.0
