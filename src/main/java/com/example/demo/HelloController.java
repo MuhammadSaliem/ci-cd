@@ -11,7 +11,7 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String hello() {
-        return "Hello there, World!!!!";
+        return "Hello there, World!!!";
     }
 
     @GetMapping("/sum")
