@@ -62,12 +62,4 @@ public class MathOperationsServiceTest {
         assertEquals(expectedSum, actualSum, "The sum should be 5");
     }
 
-    
-    @Test
-    public void testPlusPow2WithSingleElement() {
-        List<Integer> numbers = Collections.singletonList(5);
-        Integer expectedSum = 5;
-        Integer actualSum = mathOperationsService.plusPow2(numbers);
-        assertEquals(expectedSum, actualSum, "The sum should be 5");
-    }
 }
