@@ -39,7 +39,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: 'https://sonarcloud.io/'
           SONAR_ORGANIZATION: 'muhammadsaliem'
-          SONAR_PROJECTKEY: 'MuhammadSaliem_ci-cd'
+          SONAR_PROJECT_KEY: 'MuhammadSaliem_ci-cd'
         # run: mvn sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=${{ secrets.SONAR_TOKEN }} -Dsonar.organization=muhammadsaliem -Dsonar.projectKey=MuhammadSaliem_ci-cd
 
 
