@@ -32,12 +32,17 @@ jobs:
           name: jacoco-report
           path: target/site/jacoco
 
+      - name: Debug Environment Variables
+        run: env | sort
+
       - name: SonarCloud Scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: 'https://sonarcloud.io/'
+          SONAR_ORGANIZATION: 'muhammadsaliem'
+          SONAR_PROJECT_KEY: 'MuhammadSaliem_ci-cd'
         # run: mvn sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=${{ secrets.SONAR_TOKEN }} -Dsonar.organization=muhammadsaliem -Dsonar.projectKey=MuhammadSaliem_ci-cd
 
 
