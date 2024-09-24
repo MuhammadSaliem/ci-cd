@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-    @Autowired
-    private MathOperationsService mathOperationsService;
 
     @GetMapping("/hello")
     public String hello() {
@@ -32,6 +30,12 @@ public class HelloController {
 
     @PostMapping("/divide")
     public Double divList(@RequestBody List<Integer> numList) {
-      return this.mathOperationsService.divideList(numList);
+        Double sum = 0.0;
+
+        for (int i = 0; i < numList.size(); i++) {
+            sum += numList.get(i);
+        }
+
+        return sum;
     }
 }
