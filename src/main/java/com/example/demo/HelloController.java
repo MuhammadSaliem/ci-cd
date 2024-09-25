@@ -50,25 +50,25 @@ public class HelloController {
         return sum;
     }
 
-    @PostMapping("/multiple")
-    public Double mulList(@RequestBody List<Integer> numList) {
-        Double sum = 0.0;
+    // @PostMapping("/multiple")
+    // public Double mulList(@RequestBody List<Integer> numList) {
+    //     Double sum = 0.0;
 
-        for (int i = 0; i < numList.size(); i++) {
-            sum += numList.get(i);
-        }
+    //     for (int i = 0; i < numList.size(); i++) {
+    //         sum += numList.get(i);
+    //     }
 
-        return sum;
-    }
+    //     return sum;
+    // }
 
-    @PostMapping("/pow")
-    public Double powList(@RequestBody List<Integer> numList) {
-        Double sum = 0.0;
+    // @PostMapping("/pow")
+    // public Double powList(@RequestBody List<Integer> numList) {
+    //     Double sum = 0.0;
 
-        for (int i = 0; i < numList.size(); i++) {
-            sum += numList.get(i);
-        }
+    //     for (int i = 0; i < numList.size(); i++) {
+    //         sum += numList.get(i);
+    //     }
 
-        return sum;
-    }
+    //     return sum;
+    // }
 }
