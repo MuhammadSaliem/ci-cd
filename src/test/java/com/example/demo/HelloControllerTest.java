@@ -8,14 +8,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(HelloController.class)
+@SpringBootTest
 public class HelloControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+   // Mock the MathOperationsService
+    @MockBean
+    private MathOperationsService mathOperationsService;
 
     @Test
     public void testHello() throws Exception {
@@ -58,5 +65,50 @@ public class HelloControllerTest {
                 .content(requestBody))
                 .andExpect(status().isOk())
                 .andExpect(content().string("4")); // Expected sum: -1 + 2 + 3
+    }
+
+    @Test
+    public void testSumList_withPositiveNumbers() throws Exception {
+        mockMvc.perform(post("/subract")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("[1, 2, 3, 4, 5]"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("15.0"));
+    }
+
+    @Test
+    public void testSumList_withNegativeNumbers() throws Exception {
+        mockMvc.perform(post("/subract")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("[-1, -2, -3, -4, -5]"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("-15.0"));
+    }
+
+    @Test
+    public void testSumList_withMixedNumbers() throws Exception {
+        mockMvc.perform(post("/subract")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("[10, -5, 3, -2]"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("6.0"));
+    }
+
+    @Test
+    public void testSumList_withEmptyList() throws Exception {
+        mockMvc.perform(post("/subract")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("[]"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("0.0"));
+    }
+
+    @Test
+    public void testSumList_withSingleElement() throws Exception {
+        mockMvc.perform(post("/subract")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("[5]"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("5.0"));
     }
 }
