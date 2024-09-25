@@ -3,6 +3,7 @@ package com.example.demo;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
 @Service
 public class MathOperationsService {
 
@@ -56,9 +57,9 @@ public class MathOperationsService {
 
     // Division of all elements in the list
     public Double divideList(List<Integer> numList) {
-        // if (numList.isEmpty() || numList.contains(0)) {
-        //     throw new IllegalArgumentException("Cannot divide by zero or an empty list.");
-        // }
+        if (numList.isEmpty() || numList.contains(0)) {
+            throw new IllegalArgumentException("Cannot divide by zero or an empty list.");
+        }
 
         Double result = numList.get(0).doubleValue(); // Start with the first element
 
